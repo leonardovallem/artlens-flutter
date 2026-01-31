@@ -1,4 +1,4 @@
-import 'package:artlens/shared/data/model/artwork_dto.dart';
+import 'package:artlens/shared/data/model/artworks_response_dto.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -12,5 +12,5 @@ abstract class RemoteArtDatasource {
   factory RemoteArtDatasource(Dio dio) = _RemoteArtDatasource;
 
   @GET("/v1/artworks")
-  Future<HttpResponse<List<ArtworkDto>>> retrieveAll();
+  Future<HttpResponse<ArtworksResponseDto>> retrieveAll();
 }

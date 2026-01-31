@@ -20,12 +20,12 @@ class _RemoteArtDatasource implements RemoteArtDatasource {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<List<ArtworkDto>>> retrieveAll() async {
+  Future<HttpResponse<ArtworksResponseDto>> retrieveAll() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<List<ArtworkDto>>>(
+    final _options = _setStreamType<HttpResponse<ArtworksResponseDto>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -35,12 +35,10 @@ class _RemoteArtDatasource implements RemoteArtDatasource {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<ArtworkDto> _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ArtworksResponseDto _value;
     try {
-      _value = _result.data!
-          .map((dynamic i) => ArtworkDto.fromJson(i as Map<String, dynamic>))
-          .toList();
+      _value = ArtworksResponseDto.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

@@ -6,8 +6,11 @@ part of 'artwork_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ArtworkDto _$ArtworkDtoFromJson(Map<String, dynamic> json) =>
-    ArtworkDto(ArtworkDataDto.fromJson(json['data'] as Map<String, dynamic>));
+ArtworkDto _$ArtworkDtoFromJson(Map<String, dynamic> json) => ArtworkDto(
+  json['data'] == null
+      ? null
+      : ArtworkDataDto.fromJson(json['data'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$ArtworkDtoToJson(ArtworkDto instance) =>
     <String, dynamic>{'data': instance.data};
@@ -18,7 +21,6 @@ const _$ArtworkDtoJsonSchema = {
   'properties': {
     'data': {r'$ref': r'#/$defs/ArtworkDataDto'},
   },
-  'required': ['data'],
   r'$defs': {
     'ArtworkThumbnailDto': {
       'type': 'object',
@@ -26,7 +28,6 @@ const _$ArtworkDtoJsonSchema = {
         'lqip': {'type': 'string'},
         'altText': {'type': 'string'},
       },
-      'required': ['lqip', 'altText'],
     },
     'ArtworkDataDto': {
       'type': 'object',
@@ -41,29 +42,22 @@ const _$ArtworkDtoJsonSchema = {
           'items': {'type': 'string'},
         },
       },
-      'required': [
-        'id',
-        'title',
-        'description',
-        'dateDisplay',
-        'thumbnail',
-        'categoryTitles',
-      ],
     },
   },
 };
 
-ArtworkDataDto _$ArtworkDataDtoFromJson(Map<String, dynamic> json) =>
-    ArtworkDataDto(
-      (json['id'] as num).toInt(),
-      json['title'] as String,
-      json['description'] as String,
-      json['date_display'] as String,
-      ArtworkThumbnailDto.fromJson(json['thumbnail'] as Map<String, dynamic>),
-      (json['category_titles'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-    );
+ArtworkDataDto _$ArtworkDataDtoFromJson(
+  Map<String, dynamic> json,
+) => ArtworkDataDto(
+  (json['id'] as num?)?.toInt(),
+  json['title'] as String?,
+  json['description'] as String?,
+  json['date_display'] as String?,
+  json['thumbnail'] == null
+      ? null
+      : ArtworkThumbnailDto.fromJson(json['thumbnail'] as Map<String, dynamic>),
+  (json['category_titles'] as List<dynamic>?)?.map((e) => e as String).toList(),
+);
 
 Map<String, dynamic> _$ArtworkDataDtoToJson(ArtworkDataDto instance) =>
     <String, dynamic>{
@@ -89,14 +83,6 @@ const _$ArtworkDataDtoJsonSchema = {
       'items': {'type': 'string'},
     },
   },
-  'required': [
-    'id',
-    'title',
-    'description',
-    'date_display',
-    'thumbnail',
-    'category_titles',
-  ],
   r'$defs': {
     'ArtworkThumbnailDto': {
       'type': 'object',
@@ -104,13 +90,12 @@ const _$ArtworkDataDtoJsonSchema = {
         'lqip': {'type': 'string'},
         'altText': {'type': 'string'},
       },
-      'required': ['lqip', 'altText'],
     },
   },
 };
 
 ArtworkThumbnailDto _$ArtworkThumbnailDtoFromJson(Map<String, dynamic> json) =>
-    ArtworkThumbnailDto(json['lqip'] as String, json['alt_text'] as String);
+    ArtworkThumbnailDto(json['lqip'] as String?, json['alt_text'] as String?);
 
 Map<String, dynamic> _$ArtworkThumbnailDtoToJson(
   ArtworkThumbnailDto instance,
@@ -123,5 +108,4 @@ const _$ArtworkThumbnailDtoJsonSchema = {
     'lqip': {'type': 'string'},
     'alt_text': {'type': 'string'},
   },
-  'required': ['lqip', 'alt_text'],
 };

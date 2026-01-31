@@ -1,21 +1,32 @@
+import 'package:artlens/shared/data/model/artwork_dto.dart';
+
 class Artwork {
   final int id;
   final String title;
   final String description;
-  final String dateDisplay;
-  final ArtworkThumbnail thumbnail;
+  final String? dateDisplay;
+  final ArtworkThumbnail? thumbnail;
   final List<String> categories;
 
-  Artwork(this.id, this.title, this.description, this.dateDisplay, this.thumbnail, this.categories);
+  Artwork(
+    this.id,
+    this.title,
+    this.description,
+    this.dateDisplay,
+    this.thumbnail,
+    this.categories,
+  );
 
-  factory Artwork.fromDto(dynamic dto) {
+  static Artwork? fromDto(ArtworkDataDto dto) {
+    if (dto.id == null || dto.title == null) return null;
+
     return Artwork(
-      dto.data.id,
-      dto.data.title,
-      dto.data.description,
-      dto.data.dateDisplay,
-      ArtworkThumbnail(dto.data.thumbnail.lqip, dto.data.thumbnail.altText),
-      List<String>.from(dto.data.categoryTitles),
+      dto.id!,
+      dto.title!,
+      dto.description ?? "No description",
+      dto.dateDisplay,
+      ArtworkThumbnail.fromDto(dto.thumbnail),
+      dto.categoryTitles ?? [],
     );
   }
 }
@@ -25,4 +36,9 @@ class ArtworkThumbnail {
   final String altText;
 
   ArtworkThumbnail(this.lqip, this.altText);
+
+  static ArtworkThumbnail? fromDto(ArtworkThumbnailDto? dto) {
+    if (dto == null || dto.lqip == null || dto.altText == null) return null;
+    return ArtworkThumbnail(dto.lqip!, dto.altText!);
+  }
 }

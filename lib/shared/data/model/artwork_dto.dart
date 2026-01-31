@@ -4,7 +4,7 @@ part 'artwork_dto.g.dart';
 
 @JsonSerializable(createJsonSchema: true, fieldRename: .snake)
 class ArtworkDto {
-  final ArtworkDataDto data;
+  final ArtworkDataDto? data;
 
   ArtworkDto(this.data);
 
@@ -13,12 +13,12 @@ class ArtworkDto {
 
 @JsonSerializable(createJsonSchema: true, fieldRename: .snake)
 class ArtworkDataDto {
-  final int id;
-  final String title;
-  final String description;
-  final String dateDisplay;
-  final ArtworkThumbnailDto thumbnail;
-  final List<String> categoryTitles;
+  final int? id;
+  final String? title;
+  final String? description;
+  final String? dateDisplay;
+  final ArtworkThumbnailDto? thumbnail;
+  final List<String>? categoryTitles;
 
   ArtworkDataDto(this.id, this.title, this.description, this.dateDisplay, this.thumbnail, this.categoryTitles);
 
@@ -27,8 +27,8 @@ class ArtworkDataDto {
 
 @JsonSerializable(createJsonSchema: true, fieldRename: .snake)
 class ArtworkThumbnailDto {
-  final String lqip;
-  final String altText;
+  final String? lqip;
+  final String? altText;
 
   ArtworkThumbnailDto(this.lqip, this.altText);
 
