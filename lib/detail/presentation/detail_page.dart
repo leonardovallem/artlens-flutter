@@ -5,6 +5,7 @@ import 'package:artlens/shared/util/ui_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get_it/get_it.dart';
 
 import 'detail_event.dart';
@@ -52,7 +53,7 @@ class DetailView extends StatelessWidget {
                 ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(artwork.description),
+                child: Html(data: artwork.description),
               ),
             ],
           ),
