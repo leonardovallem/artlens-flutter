@@ -1,0 +1,36 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'artwork_dto.g.dart';
+
+@JsonSerializable(createJsonSchema: true, fieldRename: .snake)
+class ArtworkDto {
+  final ArtworkDataDto data;
+
+  ArtworkDto(this.data);
+
+  factory ArtworkDto.fromJson(Map<String, dynamic> json) => _$ArtworkDtoFromJson(json);
+}
+
+@JsonSerializable(createJsonSchema: true, fieldRename: .snake)
+class ArtworkDataDto {
+  final int id;
+  final String title;
+  final String description;
+  final String dateDisplay;
+  final ArtworkThumbnailDto thumbnail;
+  final List<String> categoryTitles;
+
+  ArtworkDataDto(this.id, this.title, this.description, this.dateDisplay, this.thumbnail, this.categoryTitles);
+
+  factory ArtworkDataDto.fromJson(Map<String, dynamic> json) => _$ArtworkDataDtoFromJson(json);
+}
+
+@JsonSerializable(createJsonSchema: true, fieldRename: .snake)
+class ArtworkThumbnailDto {
+  final String lqip;
+  final String altText;
+
+  ArtworkThumbnailDto(this.lqip, this.altText);
+
+  factory ArtworkThumbnailDto.fromJson(Map<String, dynamic> json) => _$ArtworkThumbnailDtoFromJson(json);
+}
