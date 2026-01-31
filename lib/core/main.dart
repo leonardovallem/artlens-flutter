@@ -1,5 +1,5 @@
-import 'package:artlens/injection.dart';
-import 'package:artlens/router.dart';
+import 'package:artlens/core/injection.dart';
+import 'package:artlens/core/router.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
