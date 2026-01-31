@@ -13,10 +13,12 @@ class ArtRepositoryImpl implements ArtRepository {
 
   @override
   Future<Result<List<Artwork>>> retrieveAll() => runCatchingAsync(() async {
-    final response = (await _remote.retrieveAll()).data;
+    final response = (await _remote.retrieveAll(retrievedFields)).data;
 
     return response.data
         .mapNotNull((dto) => Artwork.fromDto(dto, response.config.iiifUrl))
         .toList();
   });
+
+  static const retrievedFields = "id,title,description,image_id,thumbnail,date_display,category_titles";
 }

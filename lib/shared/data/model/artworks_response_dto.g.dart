@@ -61,7 +61,7 @@ const _$ArtworksResponseDtoJsonSchema = {
     'ArtworkConfigDto': {
       'type': 'object',
       'properties': {
-        'iiif_url': {'type': 'string'},
+        'iiifUrl': {'type': 'string'},
       },
     },
     'PageDto': {
