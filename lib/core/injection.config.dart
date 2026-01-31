@@ -9,6 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:artlens/detail/presentation/detail_bloc.dart' as _i198;
 import 'package:artlens/home/presentation/home_bloc.dart' as _i622;
 import 'package:artlens/shared/data/repository/art_repository.dart' as _i910;
 import 'package:artlens/shared/data/source/remote_art_datasource.dart' as _i708;
@@ -26,6 +27,7 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final sharedModule = _$SharedModule();
+    gh.factory<_i198.DetailBloc>(() => _i198.DetailBloc());
     gh.lazySingleton<_i361.Dio>(() => sharedModule.dio);
     gh.factory<_i708.RemoteArtDatasource>(
       () => _i708.RemoteArtDatasource(gh<_i361.Dio>()),

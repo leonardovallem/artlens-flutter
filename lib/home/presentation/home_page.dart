@@ -2,10 +2,12 @@ import 'package:artlens/home/presentation/home_bloc.dart';
 import 'package:artlens/home/presentation/home_event.dart';
 import 'package:artlens/home/presentation/home_state.dart';
 import 'package:artlens/shared/domain/model/Artwork.dart';
+import 'package:artlens/shared/presentation/navigation/route.dart';
 import 'package:artlens/shared/util/ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -37,6 +39,9 @@ class HomeView extends StatelessWidget {
             itemBuilder: (context, index) => ListTile(
               title: Text(artworks[index].title),
               subtitle: Text(artworks[index].description, overflow: .ellipsis),
+              onTap: () {
+                context.go(Destination.detail.route, extra: artworks[index]);
+              },
             ),
           ),
         },
