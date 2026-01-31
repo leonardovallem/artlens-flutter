@@ -36,6 +36,7 @@ const _$ArtworkDtoJsonSchema = {
         'title': {'type': 'string'},
         'description': {'type': 'string'},
         'dateDisplay': {'type': 'string'},
+        'imageId': {'type': 'string'},
         'thumbnail': {r'$ref': r'#/$defs/ArtworkThumbnailDto'},
         'categoryTitles': {
           'type': 'array',
@@ -53,6 +54,7 @@ ArtworkDataDto _$ArtworkDataDtoFromJson(
   json['title'] as String?,
   json['description'] as String?,
   json['date_display'] as String?,
+  json['image_id'] as String?,
   json['thumbnail'] == null
       ? null
       : ArtworkThumbnailDto.fromJson(json['thumbnail'] as Map<String, dynamic>),
@@ -65,6 +67,7 @@ Map<String, dynamic> _$ArtworkDataDtoToJson(ArtworkDataDto instance) =>
       'title': instance.title,
       'description': instance.description,
       'date_display': instance.dateDisplay,
+      'image_id': instance.imageId,
       'thumbnail': instance.thumbnail,
       'category_titles': instance.categoryTitles,
     };
@@ -77,6 +80,7 @@ const _$ArtworkDataDtoJsonSchema = {
     'title': {'type': 'string'},
     'description': {'type': 'string'},
     'date_display': {'type': 'string'},
+    'image_id': {'type': 'string'},
     'thumbnail': {r'$ref': r'#/$defs/ArtworkThumbnailDto'},
     'category_titles': {
       'type': 'array',
@@ -107,5 +111,19 @@ const _$ArtworkThumbnailDtoJsonSchema = {
   'properties': {
     'lqip': {'type': 'string'},
     'alt_text': {'type': 'string'},
+  },
+};
+
+ArtworkConfigDto _$ArtworkConfigDtoFromJson(Map<String, dynamic> json) =>
+    ArtworkConfigDto(json['iiif_url'] as String?);
+
+Map<String, dynamic> _$ArtworkConfigDtoToJson(ArtworkConfigDto instance) =>
+    <String, dynamic>{'iiif_url': instance.iiifUrl};
+
+const _$ArtworkConfigDtoJsonSchema = {
+  r'$schema': 'https://json-schema.org/draft/2020-12/schema',
+  'type': 'object',
+  'properties': {
+    'iiif_url': {'type': 'string'},
   },
 };

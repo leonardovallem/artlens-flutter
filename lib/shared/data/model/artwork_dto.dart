@@ -17,10 +17,19 @@ class ArtworkDataDto {
   final String? title;
   final String? description;
   final String? dateDisplay;
+  final String? imageId;
   final ArtworkThumbnailDto? thumbnail;
   final List<String>? categoryTitles;
 
-  ArtworkDataDto(this.id, this.title, this.description, this.dateDisplay, this.thumbnail, this.categoryTitles);
+  ArtworkDataDto(
+    this.id,
+    this.title,
+    this.description,
+    this.dateDisplay,
+    this.imageId,
+    this.thumbnail,
+    this.categoryTitles,
+  );
 
   factory ArtworkDataDto.fromJson(Map<String, dynamic> json) => _$ArtworkDataDtoFromJson(json);
 }
@@ -33,4 +42,13 @@ class ArtworkThumbnailDto {
   ArtworkThumbnailDto(this.lqip, this.altText);
 
   factory ArtworkThumbnailDto.fromJson(Map<String, dynamic> json) => _$ArtworkThumbnailDtoFromJson(json);
+}
+
+@JsonSerializable(createJsonSchema: true, fieldRename: .snake)
+class ArtworkConfigDto {
+  final String? iiifUrl;
+
+  ArtworkConfigDto(this.iiifUrl);
+
+  factory ArtworkConfigDto.fromJson(Map<String, dynamic> json) => _$ArtworkConfigDtoFromJson(json);
 }

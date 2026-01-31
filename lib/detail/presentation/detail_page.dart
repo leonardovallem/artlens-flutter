@@ -2,6 +2,7 @@ import 'package:artlens/detail/presentation/detail_bloc.dart';
 import 'package:artlens/detail/presentation/detail_state.dart';
 import 'package:artlens/shared/domain/model/Artwork.dart';
 import 'package:artlens/shared/util/ui_state.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -24,27 +25,37 @@ class DetailView extends StatelessWidget {
   const DetailView({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    body: BlocBuilder<DetailBloc, DetailState>(
-      builder: (context, state) => switch (state.artworkState) {
-        Loading<Artwork>() => const Center(
-          child: CircularProgressIndicator(),
-        ),
+  Widget build(BuildContext context) => BlocBuilder<DetailBloc, DetailState>(
+    builder: (context, state) => Scaffold(
+      appBar: AppBar(
+        title: switch (state.artworkState) {
+          Loading<Artwork>() => const Text('Loading artwork'),
+          Failure<Artwork>() => const Text('Error loading artwork'),
+          Success<Artwork>(data: final artwork) => Text(artwork.title),
+        },
+      ),
+      body: switch (state.artworkState) {
+        Loading<Artwork>() => const Center(child: CircularProgressIndicator()),
         Failure<Artwork>(error: final err) => Center(
           child: SelectableText('Error: $err'),
         ),
-        Success<Artwork>(data: final artwork) => Column(
-          children: [
-            // Image.network(state.artwork!.imageUrl),  // TODO
-            Text(
-              artwork.title,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(artwork.description),
-            ),
-          ],
+        Success<Artwork>(data: final artwork) => SingleChildScrollView(
+          child: Column(
+            children: [
+              if (artwork.imageUrl != null)
+                CachedNetworkImage(
+                  imageUrl: artwork.imageUrl!,
+                  width: double.infinity,
+                  fit: .fitHeight,
+                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(artwork.description),
+              ),
+            ],
+          ),
         ),
       },
     ),

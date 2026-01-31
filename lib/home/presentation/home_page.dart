@@ -40,7 +40,7 @@ class HomeView extends StatelessWidget {
               title: Text(artworks[index].title),
               subtitle: Text(artworks[index].description, overflow: .ellipsis),
               onTap: () {
-                context.go(Destination.detail.route, extra: artworks[index]);
+                context.push(Destination.detail.route, extra: artworks[index]);
               },
             ),
           ),
