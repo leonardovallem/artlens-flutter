@@ -4,7 +4,7 @@ import 'package:artlens/shared/domain/repository/art_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../shared/util/ui_state.dart';
+import '../../shared/presentation/util/ui_state.dart';
 
 @injectable
 class HomeBloc extends Bloc<HomeEvent, HomeState> {

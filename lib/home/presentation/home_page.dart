@@ -4,7 +4,7 @@ import 'package:artlens/home/presentation/home_state.dart';
 import 'package:artlens/home/presentation/widget/artwork_list_item.dart';
 import 'package:artlens/shared/domain/model/Artwork.dart';
 import 'package:artlens/shared/presentation/navigation/route.dart';
-import 'package:artlens/shared/util/ui_state.dart';
+import 'package:artlens/shared/presentation/util/ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
