@@ -9,6 +9,7 @@ import 'package:artlens/shared/util/result.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../domain/repository/art_repository.dart';
+import '../mapper/artwork.dart';
 import '../source/local/artwork/artwork_dao.dart';
 
 @Injectable(as: ArtRepository)
@@ -48,7 +49,7 @@ class ArtRepositoryImpl implements ArtRepository {
     final response = (await _remote.retrievePage(retrievedFields, page, defaultPageSize)).data;
 
     return response.data
-        .mapNotNull((dto) => Artwork.fromDto(dto, response.config.iiifUrl))
+        .mapNotNull((dto) => dto.toDomain(response.config.iiifUrl))
         .toList();
   }
 
@@ -62,7 +63,7 @@ class ArtRepositoryImpl implements ArtRepository {
 
     return artworks.map((artwork) {
       final categories = categoryMap[artwork.id] ?? [];
-      return Artwork.fromEntity(artwork, categories);
+      return artwork.toDomain(categories);
     }).toList();
   }
 
