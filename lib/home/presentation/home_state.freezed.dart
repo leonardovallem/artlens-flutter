@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HomeState {
 
- UiState<List<Artwork>> get artworksState;
+ PagingState<int, Artwork> get artworksListState;
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $HomeStateCopyWith<HomeState> get copyWith => _$HomeStateCopyWithImpl<HomeState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.artworksState, artworksState) || other.artworksState == artworksState));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.artworksListState, artworksListState) || other.artworksListState == artworksListState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,artworksState);
+int get hashCode => Object.hash(runtimeType,artworksListState);
 
 @override
 String toString() {
-  return 'HomeState(artworksState: $artworksState)';
+  return 'HomeState(artworksListState: $artworksListState)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $HomeStateCopyWith<$Res>  {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
 @useResult
 $Res call({
- UiState<List<Artwork>> artworksState
+ PagingState<int, Artwork> artworksListState
 });
 
 
@@ -62,10 +62,10 @@ class _$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? artworksState = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? artworksListState = null,}) {
   return _then(_self.copyWith(
-artworksState: null == artworksState ? _self.artworksState : artworksState // ignore: cast_nullable_to_non_nullable
-as UiState<List<Artwork>>,
+artworksListState: null == artworksListState ? _self.artworksListState : artworksListState // ignore: cast_nullable_to_non_nullable
+as PagingState<int, Artwork>,
   ));
 }
 
@@ -150,10 +150,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( UiState<List<Artwork>> artworksState)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( PagingState<int, Artwork> artworksListState)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.artworksState);case _:
+return $default(_that.artworksListState);case _:
   return orElse();
 
 }
@@ -171,10 +171,10 @@ return $default(_that.artworksState);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( UiState<List<Artwork>> artworksState)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( PagingState<int, Artwork> artworksListState)  $default,) {final _that = this;
 switch (_that) {
 case _HomeState():
-return $default(_that.artworksState);case _:
+return $default(_that.artworksListState);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -191,10 +191,10 @@ return $default(_that.artworksState);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( UiState<List<Artwork>> artworksState)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( PagingState<int, Artwork> artworksListState)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.artworksState);case _:
+return $default(_that.artworksListState);case _:
   return null;
 
 }
@@ -206,10 +206,10 @@ return $default(_that.artworksState);case _:
 
 
 class _HomeState implements HomeState {
-  const _HomeState({this.artworksState = const UiState.loading()});
+  const _HomeState({required this.artworksListState});
   
 
-@override@JsonKey() final  UiState<List<Artwork>> artworksState;
+@override final  PagingState<int, Artwork> artworksListState;
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
@@ -221,16 +221,16 @@ _$HomeStateCopyWith<_HomeState> get copyWith => __$HomeStateCopyWithImpl<_HomeSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.artworksState, artworksState) || other.artworksState == artworksState));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.artworksListState, artworksListState) || other.artworksListState == artworksListState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,artworksState);
+int get hashCode => Object.hash(runtimeType,artworksListState);
 
 @override
 String toString() {
-  return 'HomeState(artworksState: $artworksState)';
+  return 'HomeState(artworksListState: $artworksListState)';
 }
 
 
@@ -241,7 +241,7 @@ abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Re
   factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
 @override @useResult
 $Res call({
- UiState<List<Artwork>> artworksState
+ PagingState<int, Artwork> artworksListState
 });
 
 
@@ -258,10 +258,10 @@ class __$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? artworksState = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? artworksListState = null,}) {
   return _then(_HomeState(
-artworksState: null == artworksState ? _self.artworksState : artworksState // ignore: cast_nullable_to_non_nullable
-as UiState<List<Artwork>>,
+artworksListState: null == artworksListState ? _self.artworksListState : artworksListState // ignore: cast_nullable_to_non_nullable
+as PagingState<int, Artwork>,
   ));
 }
 

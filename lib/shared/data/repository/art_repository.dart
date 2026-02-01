@@ -12,8 +12,8 @@ class ArtRepositoryImpl implements ArtRepository {
   ArtRepositoryImpl(this._remote);
 
   @override
-  Future<Result<List<Artwork>>> retrieveAll() => runCatchingAsync(() async {
-    final response = (await _remote.retrieveAll(retrievedFields)).data;
+  Future<Result<List<Artwork>>> retrievePage(int page) => runCatchingAsync(() async {
+    final response = (await _remote.retrievePage(retrievedFields, page, defaultPageSize)).data;
 
     return response.data
         .mapNotNull((dto) => Artwork.fromDto(dto, response.config.iiifUrl))
@@ -21,4 +21,5 @@ class ArtRepositoryImpl implements ArtRepository {
   });
 
   static const retrievedFields = "id,title,description,image_id,thumbnail,date_display,category_titles";
+  static const defaultPageSize = 20;
 }

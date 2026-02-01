@@ -20,11 +20,17 @@ class _RemoteArtDatasource implements RemoteArtDatasource {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<ArtworksResponseDto>> retrieveAll(
+  Future<HttpResponse<ArtworksResponseDto>> retrievePage(
     String includedFields,
+    int page,
+    int limit,
   ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'fields': includedFields};
+    final queryParameters = <String, dynamic>{
+      r'fields': includedFields,
+      r'page': page,
+      r'limit': limit,
+    };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ArtworksResponseDto>>(

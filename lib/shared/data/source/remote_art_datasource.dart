@@ -12,5 +12,9 @@ abstract class RemoteArtDatasource {
   factory RemoteArtDatasource(Dio dio) = _RemoteArtDatasource;
 
   @GET("/v1/artworks")
-  Future<HttpResponse<ArtworksResponseDto>> retrieveAll(@Query("fields") String includedFields);
+  Future<HttpResponse<ArtworksResponseDto>> retrievePage(
+    @Query("fields") String includedFields,
+    @Query("page") int page,
+    @Query("limit") int limit,
+  );
 }
