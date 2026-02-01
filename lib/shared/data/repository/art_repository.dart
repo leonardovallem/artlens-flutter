@@ -1,4 +1,4 @@
-import 'package:artlens/shared/data/source/remote_art_datasource.dart';
+import 'package:artlens/shared/data/source/remote/remote_art_datasource.dart';
 import 'package:artlens/shared/domain/model/Artwork.dart';
 import 'package:artlens/shared/util/extensions/iterable.dart';
 import 'package:artlens/shared/util/result.dart';
