@@ -1,4 +1,4 @@
-import 'package:artlens/shared/domain/model/Artwork.dart';
+import 'package:artlens/shared/domain/model/artwork.dart';
 import 'package:artlens/shared/presentation/widget/category_chip.dart';
 import 'package:flutter/material.dart';
 

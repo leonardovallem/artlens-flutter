@@ -32,6 +32,39 @@ sealed class Result<T> {
     if (this is Failure<T>) return onFailure((this as Failure<T>).error);
     throw StateError('Unhandled Result type');
   }
+
+  Result<T> recoverCatching(T Function(Object error) recover) {
+    if (this is Failure<T>) {
+      final error = (this as Failure<T>).error;
+      return runCatching(() => recover(error));
+    }
+    return this;
+  }
+
+  Future<Result<T>> recoverCatchingAsync(Future<T> Function(Object error) recover) async {
+    if (this is Failure<T>) {
+      final error = (this as Failure<T>).error;
+      return runCatchingAsync(() => recover(error));
+    }
+    return this;
+  }
+}
+
+extension AsyncResultExtension<T> on Future<Result<T>> {
+  Future<Result<T>> onSuccess(void Function(T data) action) async {
+    final result = await this;
+    return result.onSuccess(action);
+  }
+
+  Future<Result<T>> onFailure(void Function(Object error) action) async {
+    final result = await this;
+    return result.onFailure(action);
+  }
+
+  Future<Result<T>> recoverCatchingAsync(Future<T> Function(Object error) recover) async {
+    final result = await this;
+    return result.recoverCatchingAsync(recover);
+  }
 }
 
 Result<T> runCatching<T>(T Function() block) {

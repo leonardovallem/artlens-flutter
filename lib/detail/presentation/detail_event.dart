@@ -1,4 +1,4 @@
-import 'package:artlens/shared/domain/model/Artwork.dart';
+import 'package:artlens/shared/domain/model/artwork.dart';
 
 sealed class DetailEvent {
   const DetailEvent();

@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_log/dio_log.dart';
+import 'package:drift/backends.dart';
+import 'package:drift_flutter/drift_flutter.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -11,4 +13,7 @@ abstract class SharedModule {
     return Dio(BaseOptions(baseUrl: "https://api.artic.edu/api"))
       ..interceptors.add(DioLogInterceptor());
   }
+
+  @lazySingleton
+  QueryExecutor get queryExecutor => driftDatabase(name: "artlens_db");
 }

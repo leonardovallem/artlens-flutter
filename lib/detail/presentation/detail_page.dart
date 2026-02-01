@@ -1,6 +1,6 @@
 import 'package:artlens/detail/presentation/detail_bloc.dart';
 import 'package:artlens/detail/presentation/detail_state.dart';
-import 'package:artlens/shared/domain/model/Artwork.dart';
+import 'package:artlens/shared/domain/model/artwork.dart';
 import 'package:artlens/shared/presentation/util/ui_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

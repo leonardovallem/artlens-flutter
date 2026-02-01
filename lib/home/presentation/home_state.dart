@@ -1,4 +1,4 @@
-import 'package:artlens/shared/domain/model/Artwork.dart';
+import 'package:artlens/shared/domain/model/artwork.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 

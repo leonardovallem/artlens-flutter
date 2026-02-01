@@ -1,6 +1,6 @@
 import 'package:artlens/home/presentation/home_event.dart';
 import 'package:artlens/home/presentation/home_state.dart';
-import 'package:artlens/shared/domain/model/Artwork.dart';
+import 'package:artlens/shared/domain/model/artwork.dart';
 import 'package:artlens/shared/domain/repository/art_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';

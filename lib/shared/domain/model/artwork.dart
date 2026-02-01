@@ -3,6 +3,8 @@ import 'dart:typed_data';
 
 import 'package:artlens/shared/data/model/artwork_dto.dart';
 
+import '../../data/source/local/app_database.dart';
+
 class Artwork {
   final int id;
   final String title;
@@ -11,13 +13,23 @@ class Artwork {
   final String? imageUrl;
   final List<String> categories;
 
-  Artwork(
-    this.id,
-    this.title,
-    this.description,
-    this.dateDisplay,
-    this.imageUrl,
-    this.categories,
+  Artwork(this.id, this.title, this.description, this.dateDisplay, this.imageUrl, this.categories);
+
+  factory Artwork.fromEntity(ArtworkEntity entity, List<CategoryEntity> categories) => Artwork(
+    entity.id,
+    entity.title,
+    entity.description,
+    entity.dateDisplay,
+    entity.imageUrl,
+    categories.map((c) => c.name).toList(),
+  );
+
+  ArtworkEntity toEntity() => ArtworkEntity(
+    id: id,
+    title: title,
+    description: description,
+    dateDisplay: dateDisplay,
+    imageUrl: imageUrl,
   );
 
   static Artwork? fromDto(ArtworkDataDto dto, String? imageBaseUrl) {

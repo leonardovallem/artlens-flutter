@@ -1,4 +1,4 @@
-import 'package:artlens/shared/domain/model/Artwork.dart';
+import 'package:artlens/shared/domain/model/artwork.dart';
 import 'package:artlens/shared/presentation/util/ui_state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
