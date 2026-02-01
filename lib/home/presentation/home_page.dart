@@ -1,9 +1,9 @@
 import 'package:artlens/home/presentation/home_bloc.dart';
 import 'package:artlens/home/presentation/home_event.dart';
 import 'package:artlens/home/presentation/home_state.dart';
+import 'package:artlens/home/presentation/widget/artwork_list_item.dart';
 import 'package:artlens/shared/domain/model/Artwork.dart';
 import 'package:artlens/shared/presentation/navigation/route.dart';
-import 'package:artlens/shared/util/extensions/string.dart';
 import 'package:artlens/shared/util/ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,12 +37,12 @@ class HomeView extends StatelessWidget {
           ),
           Success<List<Artwork>>(data: final artworks) => ListView.builder(
             itemCount: artworks.length,
-            itemBuilder: (context, index) => ListTile(
-              title: Text(artworks[index].title),
-              subtitle: Text(artworks[index].description.stripHtmlTags(), overflow: .ellipsis),
-              onTap: () {
-                context.push(Destination.detail.route, extra: artworks[index]);
-              },
+            itemBuilder: (context, index) => ArtworkListItem(
+              artwork: artworks[index],
+              onTap: () => context.push(
+                Destination.detail.route,
+                extra: artworks[index],
+              ),
             ),
           ),
         },

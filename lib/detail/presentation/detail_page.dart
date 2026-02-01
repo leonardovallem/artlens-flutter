@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../shared/presentation/widget/category_chip.dart';
 import 'detail_event.dart';
 
 class DetailPage extends StatelessWidget {
@@ -42,19 +43,36 @@ class DetailView extends StatelessWidget {
         ),
         Success<Artwork>(data: final artwork) => SingleChildScrollView(
           child: Column(
+            spacing: 12,
             children: [
               if (artwork.imageUrl != null)
                 CachedNetworkImage(
                   imageUrl: artwork.imageUrl!,
                   width: double.infinity,
                   fit: .fitHeight,
-                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Html(data: artwork.description),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  ...artwork.categories.map(
+                    (category) => CategoryChip(category: category),
+                  ),
+                ],
               ),
+              if (artwork.description != null)
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Html(data: artwork.description!),
+                )
+              else
+                Text(
+                  "No description available",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
             ],
           ),
         ),

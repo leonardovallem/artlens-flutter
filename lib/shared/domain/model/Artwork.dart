@@ -6,7 +6,7 @@ import 'package:artlens/shared/data/model/artwork_dto.dart';
 class Artwork {
   final int id;
   final String title;
-  final String description;
+  final String? description;
   final String? dateDisplay;
   final String? imageUrl;
   final List<String> categories;
@@ -26,7 +26,7 @@ class Artwork {
     return Artwork(
       dto.id!,
       dto.title!,
-      dto.description ?? "No description",
+      dto.description,
       dto.dateDisplay,
       _buildImageUrl(imageBaseUrl, dto.imageId),
       dto.categoryTitles ?? [],
