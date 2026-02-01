@@ -17,7 +17,7 @@ class Artworks extends Table {
 @DataClassName("ArtworkCategoriesRelation")
 class ArtworkCategories extends Table {
   IntColumn get artworkId => integer().references(Artworks, #id)();
-  TextColumn get categoryId => text().references(Categories, #id)();
+  TextColumn get categoryId => text().references(Categories, #name)();
 
   @override
   Set<Column<Object>>? get primaryKey => {artworkId, categoryId};

@@ -553,6 +553,9 @@ class $ArtworkCategoriesTable extends ArtworkCategories
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES categories (name)',
+    ),
   );
   @override
   List<GeneratedColumn> get $columns => [artworkId, categoryId];
@@ -1087,6 +1090,38 @@ typedef $$CategoriesTableCreateCompanionBuilder =
 typedef $$CategoriesTableUpdateCompanionBuilder =
     CategoriesCompanion Function({Value<String> name, Value<int> rowid});
 
+final class $$CategoriesTableReferences
+    extends BaseReferences<_$AppDatabase, $CategoriesTable, CategoryEntity> {
+  $$CategoriesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<
+    $ArtworkCategoriesTable,
+    List<ArtworkCategoriesRelation>
+  >
+  _artworkCategoriesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.artworkCategories,
+        aliasName: $_aliasNameGenerator(
+          db.categories.name,
+          db.artworkCategories.categoryId,
+        ),
+      );
+
+  $$ArtworkCategoriesTableProcessedTableManager get artworkCategoriesRefs {
+    final manager = $$ArtworkCategoriesTableTableManager(
+      $_db,
+      $_db.artworkCategories,
+    ).filter((f) => f.categoryId.name.sqlEquals($_itemColumn<String>('name')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _artworkCategoriesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
 class $$CategoriesTableFilterComposer
     extends Composer<_$AppDatabase, $CategoriesTable> {
   $$CategoriesTableFilterComposer({
@@ -1100,6 +1135,31 @@ class $$CategoriesTableFilterComposer
     column: $table.name,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> artworkCategoriesRefs(
+    Expression<bool> Function($$ArtworkCategoriesTableFilterComposer f) f,
+  ) {
+    final $$ArtworkCategoriesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.name,
+      referencedTable: $db.artworkCategories,
+      getReferencedColumn: (t) => t.categoryId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ArtworkCategoriesTableFilterComposer(
+            $db: $db,
+            $table: $db.artworkCategories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CategoriesTableOrderingComposer
@@ -1128,6 +1188,32 @@ class $$CategoriesTableAnnotationComposer
   });
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
+
+  Expression<T> artworkCategoriesRefs<T extends Object>(
+    Expression<T> Function($$ArtworkCategoriesTableAnnotationComposer a) f,
+  ) {
+    final $$ArtworkCategoriesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.name,
+          referencedTable: $db.artworkCategories,
+          getReferencedColumn: (t) => t.categoryId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ArtworkCategoriesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.artworkCategories,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$CategoriesTableTableManager
@@ -1141,12 +1227,9 @@ class $$CategoriesTableTableManager
           $$CategoriesTableAnnotationComposer,
           $$CategoriesTableCreateCompanionBuilder,
           $$CategoriesTableUpdateCompanionBuilder,
-          (
-            CategoryEntity,
-            BaseReferences<_$AppDatabase, $CategoriesTable, CategoryEntity>,
-          ),
+          (CategoryEntity, $$CategoriesTableReferences),
           CategoryEntity,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool artworkCategoriesRefs})
         > {
   $$CategoriesTableTableManager(_$AppDatabase db, $CategoriesTable table)
     : super(
@@ -1170,9 +1253,47 @@ class $$CategoriesTableTableManager
                 Value<int> rowid = const Value.absent(),
               }) => CategoriesCompanion.insert(name: name, rowid: rowid),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$CategoriesTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({artworkCategoriesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (artworkCategoriesRefs) db.artworkCategories,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (artworkCategoriesRefs)
+                    await $_getPrefetchedData<
+                      CategoryEntity,
+                      $CategoriesTable,
+                      ArtworkCategoriesRelation
+                    >(
+                      currentTable: table,
+                      referencedTable: $$CategoriesTableReferences
+                          ._artworkCategoriesRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$CategoriesTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).artworkCategoriesRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.categoryId == item.name,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -1187,12 +1308,9 @@ typedef $$CategoriesTableProcessedTableManager =
       $$CategoriesTableAnnotationComposer,
       $$CategoriesTableCreateCompanionBuilder,
       $$CategoriesTableUpdateCompanionBuilder,
-      (
-        CategoryEntity,
-        BaseReferences<_$AppDatabase, $CategoriesTable, CategoryEntity>,
-      ),
+      (CategoryEntity, $$CategoriesTableReferences),
       CategoryEntity,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool artworkCategoriesRefs})
     >;
 typedef $$ArtworkCategoriesTableCreateCompanionBuilder =
     ArtworkCategoriesCompanion Function({
@@ -1238,6 +1356,28 @@ final class $$ArtworkCategoriesTableReferences
       manager.$state.copyWith(prefetchedData: [item]),
     );
   }
+
+  static $CategoriesTable _categoryIdTable(_$AppDatabase db) =>
+      db.categories.createAlias(
+        $_aliasNameGenerator(
+          db.artworkCategories.categoryId,
+          db.categories.name,
+        ),
+      );
+
+  $$CategoriesTableProcessedTableManager get categoryId {
+    final $_column = $_itemColumn<String>('category_id')!;
+
+    final manager = $$CategoriesTableTableManager(
+      $_db,
+      $_db.categories,
+    ).filter((f) => f.name.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_categoryIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
 }
 
 class $$ArtworkCategoriesTableFilterComposer
@@ -1249,11 +1389,6 @@ class $$ArtworkCategoriesTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get categoryId => $composableBuilder(
-    column: $table.categoryId,
-    builder: (column) => ColumnFilters(column),
-  );
-
   $$ArtworksTableFilterComposer get artworkId {
     final $$ArtworksTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -1276,6 +1411,29 @@ class $$ArtworkCategoriesTableFilterComposer
     );
     return composer;
   }
+
+  $$CategoriesTableFilterComposer get categoryId {
+    final $$CategoriesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.name,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableFilterComposer(
+            $db: $db,
+            $table: $db.categories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ArtworkCategoriesTableOrderingComposer
@@ -1287,11 +1445,6 @@ class $$ArtworkCategoriesTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get categoryId => $composableBuilder(
-    column: $table.categoryId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
   $$ArtworksTableOrderingComposer get artworkId {
     final $$ArtworksTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -1314,6 +1467,29 @@ class $$ArtworkCategoriesTableOrderingComposer
     );
     return composer;
   }
+
+  $$CategoriesTableOrderingComposer get categoryId {
+    final $$CategoriesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.name,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableOrderingComposer(
+            $db: $db,
+            $table: $db.categories,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ArtworkCategoriesTableAnnotationComposer
@@ -1325,11 +1501,6 @@ class $$ArtworkCategoriesTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<String> get categoryId => $composableBuilder(
-    column: $table.categoryId,
-    builder: (column) => column,
-  );
-
   $$ArtworksTableAnnotationComposer get artworkId {
     final $$ArtworksTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -1344,6 +1515,29 @@ class $$ArtworkCategoriesTableAnnotationComposer
           }) => $$ArtworksTableAnnotationComposer(
             $db: $db,
             $table: $db.artworks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$CategoriesTableAnnotationComposer get categoryId {
+    final $$CategoriesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categories,
+      getReferencedColumn: (t) => t.name,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.categories,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -1367,7 +1561,7 @@ class $$ArtworkCategoriesTableTableManager
           $$ArtworkCategoriesTableUpdateCompanionBuilder,
           (ArtworkCategoriesRelation, $$ArtworkCategoriesTableReferences),
           ArtworkCategoriesRelation,
-          PrefetchHooks Function({bool artworkId})
+          PrefetchHooks Function({bool artworkId, bool categoryId})
         > {
   $$ArtworkCategoriesTableTableManager(
     _$AppDatabase db,
@@ -1413,7 +1607,7 @@ class $$ArtworkCategoriesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({artworkId = false}) {
+          prefetchHooksCallback: ({artworkId = false, categoryId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
@@ -1448,6 +1642,21 @@ class $$ArtworkCategoriesTableTableManager
                               )
                               as T;
                     }
+                    if (categoryId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.categoryId,
+                                referencedTable:
+                                    $$ArtworkCategoriesTableReferences
+                                        ._categoryIdTable(db),
+                                referencedColumn:
+                                    $$ArtworkCategoriesTableReferences
+                                        ._categoryIdTable(db)
+                                        .name,
+                              )
+                              as T;
+                    }
 
                     return state;
                   },
@@ -1472,7 +1681,7 @@ typedef $$ArtworkCategoriesTableProcessedTableManager =
       $$ArtworkCategoriesTableUpdateCompanionBuilder,
       (ArtworkCategoriesRelation, $$ArtworkCategoriesTableReferences),
       ArtworkCategoriesRelation,
-      PrefetchHooks Function({bool artworkId})
+      PrefetchHooks Function({bool artworkId, bool categoryId})
     >;
 
 class $AppDatabaseManager {
